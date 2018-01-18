@@ -38,6 +38,21 @@ namespace Niam.Xrm.AssemblyReduce.Tests
                 _output.WriteLine($"- {testType.FullName}");
 
             Assert.DoesNotContain(testTypes, t => t.FullName == "Niam.Xrm.TestAssembly.UnusedClass");
+
+            var existingTypes = new[]
+            {
+                "Niam.Xrm.TestAssembly.UsedAsGenericParamConstraintClass",
+                "Niam.Xrm.TestAssembly.UsedAsGenericParamConstraintClass2",
+
+                "Niam.Xrm.TestAssembly.DirectImplementPlugin",
+                "Niam.Xrm.TestAssembly.PluginBase",
+                "Niam.Xrm.TestAssembly.UsingCustomBasePlugin",
+                "Niam.Xrm.TestAssembly.PluginBaseGeneric`1",
+                "Niam.Xrm.TestAssembly.GenericPlugin`1"
+            };
+
+            foreach (var fullname in existingTypes)
+                Assert.Contains(testTypes, t => t.FullName == fullname);
         }
     }
 }

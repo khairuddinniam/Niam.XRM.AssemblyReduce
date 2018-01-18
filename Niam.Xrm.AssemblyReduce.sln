@@ -7,9 +7,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Niam.Xrm.AssemblyReduce", "
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{F98445D4-98EA-4BB0-81FD-761109532E29}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Niam.Xrm.AssemblyReduce.Tests", "Niam.Xrm.AssemblyReduce.Tests\Niam.Xrm.AssemblyReduce.Tests.csproj", "{05EC54CE-1632-4285-B52B-10E2439A82CF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Niam.Xrm.AssemblyReduce.Tests", "Niam.Xrm.AssemblyReduce.Tests\Niam.Xrm.AssemblyReduce.Tests.csproj", "{05EC54CE-1632-4285-B52B-10E2439A82CF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Niam.Xrm.TestAssembly", "Niam.Xrm.TestAssembly\Niam.Xrm.TestAssembly.csproj", "{10AAA291-CFE8-4D67-ABE2-05C6846E6AD4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Niam.Xrm.TestAssembly", "Niam.Xrm.TestAssembly\Niam.Xrm.TestAssembly.csproj", "{10AAA291-CFE8-4D67-ABE2-05C6846E6AD4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{BC709F63-D39A-45A9-9CA5-858D82DF270A}"
+	ProjectSection(SolutionItems) = preProject
+		open-source.snk = open-source.snk
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

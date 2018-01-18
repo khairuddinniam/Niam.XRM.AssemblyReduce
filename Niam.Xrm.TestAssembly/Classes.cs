@@ -1,5 +1,8 @@
 ﻿using System;
 using Microsoft.Xrm.Sdk;
+using Niam.Xrm.TestAssembly;
+
+[assembly: UsedAsAssemblyAttribute]
 
 namespace Niam.Xrm.TestAssembly
 {
@@ -37,10 +40,36 @@ namespace Niam.Xrm.TestAssembly
         public static void GenericMethod<T>() { }
     }
 
+    class UsedAsOperandClass { }
+
+    class UsedAsGenericParamConstraintClass { }
+
+    public class UsedAsGenericParamConstraintClass2 { }
+
     public class UsedAsGenericParamClass : Entity { }
 
+    public class UsedAsClassAttribute : Attribute { }
+
+    public class UsedAsFieldAttribute : Attribute { }
+
+    public class UsedAsPropertyAttribute : Attribute { }
+
+    public class UsedAsMethodAttribute : Attribute { }
+
+    public class UsedAsMethodParamAttribute : Attribute { }
+
+    public class UsedInsideAssemblyAttribute { }
+
+    [AttributeUsage(AttributeTargets.Assembly)]
+    public class UsedAsAssemblyAttribute : Attribute
+    {
+        UsedInsideAssemblyAttribute _field1 = null;
+    }
+
+    [UsedAsClassAttribute]
     public class DirectImplementPlugin : IPlugin
     {
+        [UsedAsPropertyAttribute]
         public string Text { get; set; }
 
         public void Execute(IServiceProvider serviceProvider)
@@ -50,7 +79,8 @@ namespace Niam.Xrm.TestAssembly
 
         public void SomeMethod()
         {
-            UsedAsMethodVariableClass name = null;
+            UsedAsMethodVariableClass var1 = null;
+            object var2 = (UsedAsOperandClass) (object) 123;
         }
 
         void Hello()
@@ -62,8 +92,10 @@ namespace Niam.Xrm.TestAssembly
 
     public abstract class PluginBase : IPlugin, UsedAsClassInterfaceInterface
     {
+        [UsedAsFieldAttribute]
         private readonly UsedAsFieldInterface _usedAsFieldInterface;
 
+        [UsedAsMethodAttribute]
         public void Execute(IServiceProvider serviceProvider)
         {
             throw new NotImplementedException();
@@ -109,6 +141,15 @@ namespace Niam.Xrm.TestAssembly
             set { }
         }
 
+        public void Execute([UsedAsMethodParamAttribute] IServiceProvider serviceProvider)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class GenericPlugin<T> : IPlugin
+        where T : UsedAsGenericParamConstraintClass2
+    {
         public void Execute(IServiceProvider serviceProvider)
         {
             throw new NotImplementedException();
@@ -117,5 +158,8 @@ namespace Niam.Xrm.TestAssembly
 
     public class UsingCustomBaseGenericPlugin : PluginBaseGeneric<UsedAsGenericParamClass>
     {
+        void SomeMethod<T>() where T : UsedAsGenericParamConstraintClass
+        {
+        }
     }
 }

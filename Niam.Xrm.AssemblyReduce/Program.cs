@@ -5,7 +5,9 @@ namespace Niam.Xrm.AssemblyReduce
     {
         public static void Main(string[] args)
         {
-           var settings = AssemblyReducerSettings.ParseArguments(args);
+            var settings = AssemblyReducerSettings.ParseArguments(args);
+            var reducer = new AssemblyReducer(settings);
+            reducer.Execute();
         }
     }
 }
