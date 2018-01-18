@@ -3,6 +3,9 @@
   <PropertyGroup>
     <TargetFramework>net452</TargetFramework>
     <DisableImplicitFrameworkReferences>true</DisableImplicitFrameworkReferences>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>..\open-source.snk</AssemblyOriginatorKeyFile>
+    <DelaySign>false</DelaySign>
   </PropertyGroup>
 
   <ItemGroup>

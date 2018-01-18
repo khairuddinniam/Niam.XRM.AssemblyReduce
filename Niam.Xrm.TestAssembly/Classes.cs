@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.Xrm.Sdk;
 using Niam.Xrm.TestAssembly;
+using System.Collections.Generic;
 
 [assembly: UsedAsAssemblyAttribute]
 
@@ -43,6 +44,10 @@ namespace Niam.Xrm.TestAssembly
     class UsedAsOperandClass { }
 
     class UsedAsGenericParamConstraintClass { }
+
+    class UsedAsGenericParamReturnTypeMethodClass { }
+
+    class UsedAsGenericParamFieldTypeMethodClass { }
 
     public class UsedAsGenericParamConstraintClass2 { }
 
@@ -94,6 +99,8 @@ namespace Niam.Xrm.TestAssembly
     {
         [UsedAsFieldAttribute]
         private readonly UsedAsFieldInterface _usedAsFieldInterface;
+
+        private List<UsedAsGenericParamFieldTypeMethodClass> _list;
 
         [UsedAsMethodAttribute]
         public void Execute(IServiceProvider serviceProvider)
@@ -161,5 +168,7 @@ namespace Niam.Xrm.TestAssembly
         void SomeMethod<T>() where T : UsedAsGenericParamConstraintClass
         {
         }
+
+        List<UsedAsGenericParamReturnTypeMethodClass> ReturnGenericMethod() => null;
     }
 }

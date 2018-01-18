@@ -9,12 +9,18 @@ namespace Niam.Xrm.AssemblyReduce.Tests
     public class AssemblyReducerTests
     {
         private readonly ITestOutputHelper _output;
+        private readonly byte[] _expectedPublicKey;
+        private readonly byte[] _expectedPublicKeyToken;
 
         public AssemblyReducerTests(ITestOutputHelper output)
         {
             _output = output ?? throw new System.ArgumentNullException(nameof(output));
 
             var fileName = "Niam.Xrm.TestAssembly";
+            var assemblyName = Assembly.LoadFrom($"{fileName}.dll").GetName();
+            _expectedPublicKey = assemblyName.GetPublicKey();
+            _expectedPublicKeyToken = assemblyName.GetPublicKeyToken();
+
             File.Copy($"{fileName}.dll", $"{fileName}.test.dll", true);
             var pdbFileName = $"{fileName}.pdb";
             if (File.Exists(pdbFileName))
@@ -27,7 +33,8 @@ namespace Niam.Xrm.AssemblyReduce.Tests
             var fileName = "Niam.Xrm.TestAssembly.test.dll";
             var settings = new AssemblyReducerSettings
             {
-                Input = fileName
+                Input = fileName,
+                StrongNameKey = "open-source.snk"
             };
 
             new AssemblyReducer(settings).Execute();
@@ -36,6 +43,10 @@ namespace Niam.Xrm.AssemblyReduce.Tests
             var testTypes = testAssembly.GetTypes();
             foreach (var testType in testTypes.OrderBy(t => t.FullName))
                 _output.WriteLine($"- {testType.FullName}");
+
+            var testAssemblyName = testAssembly.GetName();
+            Assert.Equal(_expectedPublicKey, testAssemblyName.GetPublicKey());
+            Assert.Equal(_expectedPublicKeyToken, testAssemblyName.GetPublicKeyToken());
 
             Assert.DoesNotContain(testTypes, t => t.FullName == "Niam.Xrm.TestAssembly.UnusedClass");
 

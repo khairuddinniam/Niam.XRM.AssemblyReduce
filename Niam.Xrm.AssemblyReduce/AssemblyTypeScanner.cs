@@ -58,12 +58,23 @@ namespace Niam.Xrm.AssemblyReduce
         private static void ScanType(TypeReference entryTypeRef, HashSet<string> usedTypeIds)
         {
             if (entryTypeRef == null) return;
-            if (entryTypeRef.Scope.MetadataScopeType != MetadataScopeType.ModuleDefinition) return;
+            if (entryTypeRef.Scope.MetadataScopeType != MetadataScopeType.ModuleDefinition)
+            {
+                if (entryTypeRef is GenericInstanceType g)
+                {
+                    foreach (var typeRef in g.GenericArguments.Where(t => t.Scope.MetadataScopeType == MetadataScopeType.ModuleDefinition))
+                        ScanType(typeRef, usedTypeIds);
+                }
+
+                return;
+            }
 
             var typeDef = entryTypeRef.Resolve();
-            if (usedTypeIds.Contains(typeDef.FullName)) return;
+            var fullName = typeDef?.FullName ?? entryTypeRef.FullName;
+            if (usedTypeIds.Contains(fullName)) return;
 
-            usedTypeIds.Add(typeDef.FullName);
+            usedTypeIds.Add(fullName);
+            if (typeDef == null) return;
 
             var methodDefs = typeDef.Methods
                 .Concat(typeDef.Properties.Where(pd => pd.GetMethod != null).Select(pd => pd.GetMethod))
