@@ -17,5 +17,12 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
   </ItemGroup>
+  
+  <ItemGroup>
+    <BuildFiles Include="$(TargetDir)*.*" />
+  </ItemGroup>
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Copy SourceFiles="@(BuildFiles)" DestinationFolder="$(SolutionDir)build" />
+  </Target>
 
 </Project>

@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net452</TargetFramework>
+    <DisableImplicitFrameworkReferences>true</DisableImplicitFrameworkReferences>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>..\open-source.snk</AssemblyOriginatorKeyFile>
+    <DelaySign>false</DelaySign>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CrmSdk.CoreAssemblies" Version="8.2.0.2" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Compile Include="..\Niam.Xrm.TestAssembly\Classes.cs" Link="Classes.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="System" />
+  </ItemGroup>
+</Project>
