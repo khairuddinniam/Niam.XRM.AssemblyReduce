@@ -15,6 +15,6 @@ Let the program run and check the result in the output folder.
 | ------------- |:-----------------------------:|-------------------|
 | -i            | The dll input path     | "input\LeadPlugin.dll" |
 | -o            | The dll result path      |   "output\LeadPlugin.dll"|
-| -k | The namespace you want to keep (optional)     |    "RestSharp.* , SimpleJson" |
+| -k | The namespace you want to keep (optional)     |    "Niam.Xrm.Framework.* , SimpleJson" |
 
-For the -k param, these param will help you to keep this namespace. For example if you put RestSharp.* this param will giving flag to the system to keep all the types inside the namespace of RestSharp.
+For the -k param, these param will help you to keep this namespace. For example if you put Niam.Xrm.Framework.* this param will giving flag to the system to keep all the types inside the namespace of Niam.Xrm.Framework.
