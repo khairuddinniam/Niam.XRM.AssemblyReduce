@@ -77,6 +77,8 @@ namespace Niam.Xrm.AssemblyReduce
             if (typeDef == null) return;
 
             var methodDefs = typeDef.Methods
+                .Concat(typeDef.Events.Where(ed => ed.AddMethod != null).Select(ed => ed.AddMethod))
+                .Concat(typeDef.Events.Where(ed => ed.RemoveMethod != null).Select(ed => ed.RemoveMethod))
                 .Concat(typeDef.Properties.Where(pd => pd.GetMethod != null).Select(pd => pd.GetMethod))
                 .Concat(typeDef.Properties.Where(pd => pd.SetMethod != null).Select(pd => pd.SetMethod));
             var bodies = methodDefs.Where(md => md.HasBody).Select(md => md.Body).ToArray();
@@ -84,6 +86,7 @@ namespace Niam.Xrm.AssemblyReduce
             var customAttributeTypes = typeDef.CustomAttributes
                 .Concat(typeDef.Fields.SelectMany(fd => fd.CustomAttributes))
                 .Concat(typeDef.Properties.SelectMany(pd => pd.CustomAttributes))
+                .Concat(typeDef.Events.SelectMany(ed => ed.CustomAttributes))
                 .Concat(methodDefs.SelectMany(md => md.CustomAttributes))
                 .Concat(methodDefs.SelectMany(md => md.Parameters).SelectMany(md => md.CustomAttributes));
 

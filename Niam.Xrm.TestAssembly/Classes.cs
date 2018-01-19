@@ -2,6 +2,7 @@
 using Microsoft.Xrm.Sdk;
 using Niam.Xrm.TestAssembly;
 using System.Collections.Generic;
+using System.Text;
 
 [assembly: UsedAsAssemblyAttribute]
 
@@ -65,6 +66,12 @@ namespace Niam.Xrm.TestAssembly
 
     public class UsedInsideAssemblyAttribute { }
 
+    public class UseOnEventAddMethodAttribute : Attribute { }
+
+    public class UseOnEventRemoveMethodAttribute : Attribute { }
+
+    public delegate void OnValueChanged(string arg);
+
     [AttributeUsage(AttributeTargets.Assembly)]
     public class UsedAsAssemblyAttribute : Attribute
     {
@@ -101,6 +108,21 @@ namespace Niam.Xrm.TestAssembly
         private readonly UsedAsFieldInterface _usedAsFieldInterface;
 
         private List<UsedAsGenericParamFieldTypeMethodClass> _list;
+
+        public event OnValueChanged PropertyChanged
+        {
+            [UseOnEventAddMethodAttribute]
+            add
+            {
+                new StringBuilder();
+            }
+
+            [UseOnEventRemoveMethodAttribute]
+            remove
+            {
+                new StringBuilder();
+            }
+        }
 
         [UsedAsMethodAttribute]
         public void Execute(IServiceProvider serviceProvider)
