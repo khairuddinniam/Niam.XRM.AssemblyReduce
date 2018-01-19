@@ -6,9 +6,18 @@ using System.Text;
 
 [assembly: UsedAsAssemblyAttribute]
 
+namespace Niam.Xrm.TestAssembly.Unused
+{
+    public class AnotherUnusedClass { }
+
+    public class AnotherUnusedClass2 { }
+}
+
 namespace Niam.Xrm.TestAssembly
 {
     public class UnusedClass { }
+
+    public class UnusedButKeepClass { }
 
     interface UsedAsFieldInterface { }
 

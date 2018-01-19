@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace Niam.Xrm.AssemblyReduce
 {
@@ -12,13 +13,13 @@ namespace Niam.Xrm.AssemblyReduce
 
         public IEnumerable<string> UsedTypeIds => _usedTypeIds;
 
-        public AssemblyTypeScanner(AssemblyDefinition assemblyDefinition)
+        public AssemblyTypeScanner(AssemblyDefinition assemblyDefinition, string[] keepTypePatterns)
         {
             _assemblyDefinition = assemblyDefinition ?? throw new ArgumentNullException(nameof(assemblyDefinition));
-            _usedTypeIds = GetInitialUsedTypeIds(assemblyDefinition);
+            _usedTypeIds = GetInitialUsedTypeIds(assemblyDefinition, keepTypePatterns);
         }
 
-        private static HashSet<string> GetInitialUsedTypeIds(AssemblyDefinition assemblyDefinition)
+        private static HashSet<string> GetInitialUsedTypeIds(AssemblyDefinition assemblyDefinition, string[] keepTypeIdPatterns)
         {
             var ids = new HashSet<string> { "<Module>" };
 
@@ -32,7 +33,18 @@ namespace Niam.Xrm.AssemblyReduce
             var compilerGeneratedTypes = assemblyDefinition.MainModule.Types
                 .Where(IsCompilerGenerated);
 
-            var initTypes = selfCustomAttributeTypes.Concat(compilerGeneratedTypes);
+            var keepRegexs = keepTypeIdPatterns
+                .Select(s =>
+                {
+                    var pattern = s.Contains("*") ? s.Replace("*", ".*") : $"^{s}$";
+                    pattern = pattern.Replace(".", "\\.");
+                    return new Regex(pattern);
+                }).ToArray();
+            var keepTypes = assemblyDefinition.MainModule.Types.Where(t => keepRegexs.Any(r => r.IsMatch(t.FullName)));
+
+            var initTypes = selfCustomAttributeTypes
+                .Concat(compilerGeneratedTypes)
+                .Concat(keepTypes);
             foreach (var type in initTypes)
                 ScanType(type, ids);
 

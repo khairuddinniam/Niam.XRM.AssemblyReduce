@@ -23,7 +23,7 @@ namespace Niam.Xrm.AssemblyReduce
                 var readerParams = CreateReaderParameters(assemblyResolver);
                 using (var assemblyDefinition = AssemblyDefinition.ReadAssembly(_settings.Input, readerParams))
                 {
-                    var scanner = new AssemblyTypeScanner(assemblyDefinition);
+                    var scanner = new AssemblyTypeScanner(assemblyDefinition, _settings.KeepTypes);
                     scanner.ScanFromPluginTypes();
                     RemoveUnusedTypes(assemblyDefinition, scanner.UsedTypeIds);
 

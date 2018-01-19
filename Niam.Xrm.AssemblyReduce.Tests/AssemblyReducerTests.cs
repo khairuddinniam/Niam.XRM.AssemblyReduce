@@ -34,7 +34,13 @@ namespace Niam.Xrm.AssemblyReduce.Tests
             var settings = new AssemblyReducerSettings
             {
                 Input = fileName,
-                StrongNameKey = "open-source.snk"
+                StrongNameKey = "open-source.snk",
+                KeepTypes = new[]
+                {
+                    "Niam.Xrm.TestAssembly.UsedAsGenericParamConstraintClass",
+                    "Niam.Xrm.TestAssembly.UnusedButKeepClass",
+                    "Niam.Xrm.TestAssembly.Unused.*"
+                }
             };
 
             new AssemblyReducer(settings).Execute();
@@ -52,6 +58,10 @@ namespace Niam.Xrm.AssemblyReduce.Tests
 
             var existingTypes = new[]
             {
+                "Niam.Xrm.TestAssembly.UnusedButKeepClass",
+                "Niam.Xrm.TestAssembly.Unused.AnotherUnusedClass",
+                "Niam.Xrm.TestAssembly.Unused.AnotherUnusedClass2",
+
                 "Niam.Xrm.TestAssembly.UsedAsGenericParamConstraintClass",
                 "Niam.Xrm.TestAssembly.UsedAsGenericParamConstraintClass2",
 
