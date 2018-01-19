@@ -80,12 +80,14 @@ namespace Niam.Xrm.AssemblyReduce
 
                 return;
             }
-
+            
             var typeDef = entryTypeRef.Resolve();
-            var fullName = typeDef?.FullName ?? entryTypeRef.FullName;
-            if (usedTypeIds.Contains(fullName)) return;
+            var entityTypeRefFullName = entryTypeRef.FullName;
+            var typeDefFullName = typeDef?.FullName ?? entryTypeRef.FullName;
+            if (usedTypeIds.Contains(typeDefFullName) && usedTypeIds.Contains(entityTypeRefFullName)) return;
 
-            usedTypeIds.Add(fullName);
+            usedTypeIds.Add(typeDefFullName);
+            usedTypeIds.Add(entityTypeRefFullName);
             if (typeDef == null) return;
 
             var methodDefs = typeDef.Methods

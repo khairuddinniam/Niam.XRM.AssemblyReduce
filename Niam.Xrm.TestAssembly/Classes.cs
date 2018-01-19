@@ -63,6 +63,8 @@ namespace Niam.Xrm.TestAssembly
 
     public class UsedAsGenericParamClass : Entity { }
 
+    public class UsedAsGenericParamClass2 : Entity { }
+
     public class UsedAsClassAttribute : Attribute { }
 
     public class UsedAsFieldAttribute : Attribute { }
@@ -201,5 +203,9 @@ namespace Niam.Xrm.TestAssembly
         }
 
         List<UsedAsGenericParamReturnTypeMethodClass> ReturnGenericMethod() => null;
+    }
+
+    public class UsingCustomBaseGenericPlugin2 : PluginBaseGeneric<UsedAsGenericParamClass2>
+    {
     }
 }
