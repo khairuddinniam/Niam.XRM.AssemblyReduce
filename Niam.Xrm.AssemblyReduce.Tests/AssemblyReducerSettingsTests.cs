@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Xunit;
 
 namespace Niam.Xrm.AssemblyReduce.Tests
@@ -49,6 +50,31 @@ namespace Niam.Xrm.AssemblyReduce.Tests
         {
             var settings = AssemblyReducerSettings.ParseArguments(args.Split(' ').ToArray());
             Assert.Equal("path/to/snk/file", settings.StrongNameKey);
+        }
+
+        [Theory]
+        [InlineData("not_exist.dll")]
+        [InlineData(null)]
+        public void Invalid_input_path(string input)
+        {
+            var settings = new AssemblyReducerSettings
+            {
+                Input = input
+            };
+            var ex = Assert.Throws<ArgumentException>(() => settings.Validate());
+            Assert.Equal("input file not found.", ex.Message);
+        }
+
+        [Fact]
+        public void Invalid_strong_name_key_path()
+        {
+            var settings = new AssemblyReducerSettings
+            {
+                Input = "Niam.Xrm.AssemblyReduce.Tests.dll",
+                StrongNameKey = "not_exist.dll"
+            };
+            var ex = Assert.Throws<ArgumentException>(() => settings.Validate());
+            Assert.Equal("strong name key file not found.", ex.Message);
         }
     }
 }

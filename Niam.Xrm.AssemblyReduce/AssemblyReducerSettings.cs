@@ -1,4 +1,6 @@
 ﻿using NDesk.Options;
+using System;
+using System.IO;
 
 namespace Niam.Xrm.AssemblyReduce
 {
@@ -14,6 +16,15 @@ namespace Niam.Xrm.AssemblyReduce
         }
         public string[] KeepTypes { get; set; } = new string[0];
         public string StrongNameKey { get; set; }
+
+        public void Validate()
+        {
+            if (Input == null || !File.Exists(Input))
+                throw new ArgumentException("input file not found.");
+
+            if (StrongNameKey != null && !File.Exists(StrongNameKey))
+                throw new ArgumentException("strong name key file not found.");
+        }
 
         public static AssemblyReducerSettings ParseArguments(string[] args)
         {

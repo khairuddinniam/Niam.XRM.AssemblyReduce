@@ -19,4 +19,8 @@
   <ItemGroup>
     <Reference Include="System" />
   </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="&quot;$(SolutionDir)\build\Niam.Xrm.AssemblyReduce.exe&quot; -input=$(TargetPath) -snk=$(SolutionDir)open-source.snk" />
+  </Target>
 </Project>
